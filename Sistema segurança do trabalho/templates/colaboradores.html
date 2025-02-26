@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colaboradores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="bg-dark text-white text-center py-4">
+    <h1>Gerenciamento de Colaboradores</h1>
+    <p class="lead">Cadastre e gerencie todos os colaboradores da sua empresa.</p>
+    <!-- Link corrigido para voltar ao início -->
+    <a class="btn btn-light" href="{{ url_for('index') }}">Voltar para o Início</a>
+</header>
+
+<main class="container mt-5">
+    <h2 class="mb-4">Cadastrar Colaborador</h2>
+    <form action="/add_colaborador" method="POST" class="mb-4">
+        <!-- Formulário de Cadastro de Colaborador -->
+        <div class="row">
+            <div class="col-md-6">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" name="nome" class="form-control" placeholder="Nome" required>
+            </div>
+            <div class="col-md-6">
+                <label for="cargo" class="form-label">Cargo</label>
+                <input type="text" name="cargo" class="form-control" placeholder="Cargo" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="setor" class="form-label">Setor</label>
+                <input type="text" name="setor" class="form-control" placeholder="Setor" required>
+            </div>
+            <div class="col-md-6">
+                <label for="rg" class="form-label">RG</label>
+                <input type="text" name="rg" class="form-control" placeholder="RG" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="cpf" class="form-label">CPF</label>
+                <input type="text" name="cpf" class="form-control" placeholder="CPF" required>
+            </div>
+            <div class="col-md-6">
+                <label for="nascimento" class="form-label">Data de Nascimento</label>
+                <input type="date" name="nascimento" class="form-control" placeholder="Data de Nascimento" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="admissao" class="form-label">Data de Admissão</label>
+                <input type="date" name="admissao" class="form-control" placeholder="Data de Admissão" required>
+            </div>
+            <div class="col-md-6">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" class="form-control" required>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Desligado">Desligado</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" id="desligamento" style="display: none;">
+            <div class="col-md-6">
+                <label for="desligamento" class="form-label">Data de Desligamento</label>
+                <input type="date" name="desligamento" class="form-control" placeholder="Data de Desligamento">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mt-4">Cadastrar</button>
+    </form>
+
+    <h2>Lista de Colaboradores</h2>
+
+    <!-- Filtro de Status -->
+    <div class="mb-4">
+        <form action="{{ url_for('colaboradores') }}" method="GET">
+            <label for="status_filter">Filtrar por Status:</label>
+            <select name="status_filter" id="status_filter" class="form-control">
+                <option value="todos" {% if status_filter == 'todos' %}selected{% endif %}>Todos</option>
+                <option value="Ativo" {% if status_filter == 'Ativo' %}selected{% endif %}>Ativos</option>
+                <option value="Desligado" {% if status_filter == 'Desligado' %}selected{% endif %}>Desligados</option>
+            </select>
+            <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+        </form>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome</th>
+                <th>Cargo</th>
+                <th>Setor</th>
+                <th>RG</th>
+                <th>CPF</th>
+                <th>Data de Nascimento</th>
+                <th>Data de Admissão</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for colaborador in colaboradores %}
+                <tr>
+                    <td>{{ colaborador[1] }}</td>
+                    <td>{{ colaborador[2] }}</td>
+                    <td>{{ colaborador[3] }}</td>
+                    <td>{{ colaborador[4] }}</td>
+                    <td>{{ colaborador[5] }}</td>
+                    <td>{{ colaborador[6] }}</td>
+                    <td>{{ colaborador[7] }}</td>
+                    <td>{{ colaborador[8] }}</td>
+                    <td>
+                        <!-- Link para o perfil do colaborador -->
+                        <a href="{{ url_for('perfil_colaborador', id=colaborador[0]) }}" class="btn btn-info btn-sm">Ver Perfil</a>
+                        <!-- Botões de ação com ícones -->
+                        <a href="{{ url_for('editar_colaborador', id=colaborador[0]) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
+                        <a href="{{ url_for('excluir_colaborador', id=colaborador[0]) }}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este colaborador?')"><i class="fas fa-trash-alt"></i> Excluir</a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Script para exibir a data de desligamento quando o status for "Desligado"
+document.querySelector('select[name="status"]').addEventListener('change', function() {
+    var desligamentoField = document.getElementById('desligamento');
+    if (this.value === 'Desligado') {
+        desligamentoField.style.display = 'block';
+    } else {
+        desligamentoField.style.display = 'none';
+    }
+});
+</script>
+</body>
+</html>

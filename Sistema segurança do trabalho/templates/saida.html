@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Saída de EPI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="bg-dark text-white text-center py-4">
+    <h1>Registrar Saída de EPI</h1>
+    <a class="btn btn-light" href="{{ url_for('movimentacoes') }}">Voltar para Movimentações</a>
+</header>
+
+<main class="container mt-5">
+    <!-- Formulário de Saída -->
+    <form action="{{ url_for('add_saida') }}" method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="epi_id" class="form-label">EPI</label>
+                <select name="epi_id" class="form-control" required>
+                    {% for epi in epis %}
+                        <option value="{{ epi[0] }}">{{ epi[1] }} (CA: {{ epi[2] }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="quantidade" class="form-label">Quantidade</label>
+                <input type="number" name="quantidade" class="form-control" required>
+            </div>
+        </div>
+    
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="colaborador_id" class="form-label">Funcionário</label>
+                <select name="colaborador_id" class="form-control" required>
+                    {% for colaborador in colaboradores %}
+                        <option value="{{ colaborador[0] }}">{{ colaborador[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="data" class="form-label">Data</label>
+                <input type="date" name="data" class="form-control" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-warning w-100 mt-4">Registrar Saída</button>
+    </form>
+
+    <!-- Histórico de Saídas -->
+    <h2 class="mt-5">Histórico de Saídas</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>EPI</th>
+                <th>CA</th>
+                <th>Quantidade</th>
+                <th>Data</th>
+                <th>Funcionário</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saida in saidas %}
+                <tr>
+                    <td>{{ saida[1] }}</td>  <!-- Nome do EPI -->
+                    <td>{{ saida[2] }}</td>  <!-- CA do EPI -->
+                    <td>{{ saida[3] }}</td>  <!-- Quantidade -->
+                    <td>{{ saida[4] }}</td>  <!-- Data -->
+                    <td>{{ saida[5] }}</td>  <!-- Funcionário -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

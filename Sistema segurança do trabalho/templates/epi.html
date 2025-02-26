@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de EPIs{% endblock %}
+
+{% block content %}
+<h2>Lista de EPIs</h2>
+
+<a href="{{ url_for('add_epi') }}" class="btn btn-success my-3">Adicionar EPI</a>
+
+<!-- Tabela de EPIs -->
+<table id="epiTable" class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Nome do EPI</th>
+            <th>Fabricante</th>
+            <th>CA</th>
+            <th>Vencimento</th>
+            <th>Estoque Mínimo</th>
+            <th>Estoque Máximo</th>
+            <th>Preço</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for epi in epis %}
+        <tr>
+            <td>{{ epi[1] }}</td>  <!-- Nome do EPI -->
+            <td>{{ epi[2] }}</td>  <!-- Fabricante -->
+            <td>{{ epi[3] }}</td>  <!-- CA do EPI -->
+            <td>{{ epi[4] }}</td>  <!-- Data de Vencimento -->
+            <td>{{ epi[5] }} unidades</td>  <!-- Estoque Mínimo -->
+            <td>{{ epi[6] }} unidades</td>  <!-- Estoque Máximo -->
+            <td>R$ {{ epi[7] }}</td>  <!-- Preço -->
+            <td>
+                <!-- Botões de ação: Editar e Excluir -->
+                <a href="{{ url_for('editar_epi', id=epi[0]) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
+                <a href="#" onclick="openDeleteModal('{{ url_for('deletar_epi', id=epi[0]) }}')" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Modal de Exclusão -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Você tem certeza de que deseja excluir este EPI? Esta ação não pode ser desfeita.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="#" id="deleteLink" class="btn btn-danger">Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Função para abrir o modal de exclusão
+    function openDeleteModal(link) {
+        document.getElementById('deleteLink').href = link;
+        var myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        myModal.show();
+    }
+
+    // Inicializa o DataTables para tabela interativa
+    $(document).ready(function() {
+        $('#epiTable').DataTable(); // Aplica o DataTables à tabela com id "epiTable"
+    });
+</script>
+
+{% endblock %}

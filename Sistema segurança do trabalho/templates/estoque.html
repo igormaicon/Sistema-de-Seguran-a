@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque de EPIs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="bg-dark text-white text-center py-4">
+    <h1>Estoque de EPIs</h1>
+    <a class="btn btn-light" href="{{ url_for('index') }}">Voltar para o Início</a>
+</header>
+
+<main class="container mt-5">
+    <h2 class="mb-4">Lista de EPIs e Estoque</h2>
+    
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome do EPI</th>
+                <th>CA</th>
+                <th>Estoque Mínimo</th>
+                <th>Estoque Atual</th>
+                <th>Preço</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for epi in epis %}
+                <tr>
+                    <td>{{ epi[1] }}</td>
+                    <td>{{ epi[2] }}</td>
+                    <td>{{ epi[3] }} unidades</td>
+                    <td>{{ epi[4] }} unidades</td>
+                    <td>
+                        {% if epi[5] %}
+                            {{ epi[5] | round(2) }} R$
+                        {% else %}
+                            Não disponível
+                        {% endif %}
+                    </td>
+                    <td>
+                        <!-- Botões de ação: Editar e Excluir -->
+                        <a href="{{ url_for('editar_epi', id=epi[0]) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
+                        <a href="#" onclick="openDeleteModal('{{ url_for('deletar_epi', id=epi[0]) }}')" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    
+    
+    
+</main>
+
+<!-- Modal de Exclusão -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Você tem certeza de que deseja excluir este EPI? Esta ação não pode ser desfeita.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="#" id="deleteLink" class="btn btn-danger">Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Função para abrir o modal de exclusão
+    function openDeleteModal(link) {
+        document.getElementById('deleteLink').href = link;
+        var myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        myModal.show();
+    }
+
+    // Inicializa o DataTables para tabela interativa
+    $(document).ready(function() {
+        $('#epiTable').DataTable(); // Aplica o DataTables à tabela com id "epiTable"
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de EPI{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4">Cadastro de Novo EPI</h2>
+
+<!-- Formulário de Cadastro de EPI -->
+<form method="POST">
+    <div class="row">
+        <div class="col-md-6">
+            <label for="nome_epi" class="form-label">Nome do EPI</label>
+            <input type="text" class="form-control" id="nome_epi" name="nome_epi" required>
+        </div>
+        <div class="col-md-6">
+            <label for="fabricante" class="form-label">Fabricante</label>
+            <input type="text" class="form-control" id="fabricante" name="fabricante" required>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <label for="ca" class="form-label">CA</label>
+            <input type="text" class="form-control" id="ca" name="ca" required>
+        </div>
+        <div class="col-md-6">
+            <label for="vencimento" class="form-label">Data de Vencimento</label>
+            <input type="text" class="form-control" id="vencimento" name="vencimento" required>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <label for="estoque_min" class="form-label">Estoque Mínimo</label>
+            <input type="number" class="form-control" id="estoque_min" name="estoque_min" required>
+        </div>
+        <div class="col-md-6">
+            <label for="estoque_max" class="form-label">Estoque Máximo</label>
+            <input type="number" class="form-control" id="estoque_max" name="estoque_max" required>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <label for="preco" class="form-label">Preço</label>
+            <input type="number" step="0.01" class="form-control" id="preco" name="preco" required>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg">Cadastrar EPI</button>
+    </div>
+</form>
+
+{% endblock %}

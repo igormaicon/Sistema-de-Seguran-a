@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Bem-vindo ao Sistema de Gerenciamento{% endblock %}
+
+{% block content %}
+    <h2 class="text-center mb-4">Bem-vindo ao Sistema de Gerenciamento</h2>
+    
+    <div class="text-center">
+        <a href="{{ url_for('colaboradores') }}" class="btn btn-primary btn-lg m-2">Gerenciar Colaboradores</a>
+        <a href="{{ url_for('epis') }}" class="btn btn-info btn-lg m-2">Gerenciar EPIs</a>
+        <a href="{{ url_for('estoque') }}" class="btn btn-success btn-lg m-2">Estoque de EPIs</a>
+        <a href="{{ url_for('movimentacoes') }}" class="btn btn-warning btn-lg m-2">Movimentações</a>
+        <a href="{{ url_for('aniversariantes') }}" class="btn btn-info btn-lg m-2">Aniversariantes</a> <!-- Novo Link -->
+    </div>
+{% endblock %}

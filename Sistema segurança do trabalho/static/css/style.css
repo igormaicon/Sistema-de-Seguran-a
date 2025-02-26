@@ -1,0 +1,33 @@
+/* Estilo de fundo */
+body {
+    background-color: #f4f4f9;
+}
+
+/* Estilos do cabeçalho */
+header {
+    background-color: #343a40;
+    color: white;
+}
+
+/* Botões */
+.btn {
+    border-radius: 20px;
+}
+
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 1.25rem;
+}
+
+/* Alinhamento e espaçamento */
+.text-center {
+    text-align: center;
+}
+
+.mt-5 {
+    margin-top: 5rem;
+}
+
+.m-2 {
+    margin: 0.5rem;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Colaborador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="bg-dark text-white text-center py-4">
+    <h1>Editar Colaborador</h1>
+    <a class="btn btn-light" href="/colaboradores">Voltar para a Lista</a>
+</header>
+
+<main class="container mt-5">
+    <h2>Editar Informações do Colaborador</h2>
+    <form action="/editar_colaborador/{{ colaborador[0] }}" method="POST" class="mb-4">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" name="nome" class="form-control" value="{{ colaborador[1] }}" required>
+            </div>
+            <div class="col-md-6">
+                <input type="text" name="cargo" class="form-control" value="{{ colaborador[2] }}" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" name="setor" class="form-control" value="{{ colaborador[3] }}" required>
+            </div>
+            <div class="col-md-6">
+                <input type="text" name="rg" class="form-control" value="{{ colaborador[4] }}" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" name="cpf" class="form-control" value="{{ colaborador[5] }}" required>
+            </div>
+            <div class="col-md-6">
+                <input type="date" name="nascimento" class="form-control" value="{{ colaborador[6] }}" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="date" name="admissao" class="form-control" value="{{ colaborador[7] }}" required>
+            </div>
+            <div class="col-md-6">
+                <select name="status" class="form-control" required>
+                    <option value="Ativo" {% if colaborador[8] == 'Ativo' %}selected{% endif %}>Ativo</option>
+                    <option value="Desligado" {% if colaborador[8] == 'Desligado' %}selected{% endif %}>Desligado</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" id="desligamento" style="display: {% if colaborador[9] %}block{% else %}none{% endif %};">
+            <div class="col-md-6">
+                <input type="date" name="desligamento" class="form-control" value="{{ colaborador[9] }}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mt-4">Salvar Alterações</button>
+    </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Script para exibir a data de desligamento quando o status for "Desligado"
+document.querySelector('select[name="status"]').addEventListener('change', function() {
+    var desligamentoField = document.getElementById('desligamento');
+    if (this.value === 'Desligado') {
+        desligamentoField.style.display = 'block';
+    } else {
+        desligamentoField.style.display = 'none';
+    }
+});
+</script>
+</body>
+</html>
